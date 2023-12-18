@@ -1,0 +1,6 @@
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !\.(jpg|gif|png|css|js|txt|ico|pdf|doc|docx|ppt|pptx|xls|xlsx)$ [NC]
+RewriteRule ^ index.php [QSA,L]
+
+SetEnv SLIM_DEBUG 1
+SetEnv SLIM_ENVIRONMENT production
