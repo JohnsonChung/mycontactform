@@ -25,7 +25,7 @@ class Mail
         ]);
         $response = $client->post('/recaptcha/api/siteverify', [
             'form_params' => [
-                'secret' => '6LdUSJkgAAAAABWEnrn-CmnljtovcxQPf89S7_1Y',
+                'secret' => '6LdRtzUpAAAAALua1AQ3i-hAzX5whYtuCk8Gh1Y8',
                 'response' => $token,
                 'remoteip' => $_SERVER['REMOTE_ADDR']
             ]

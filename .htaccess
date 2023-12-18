@@ -1,5 +1,12 @@
 RewriteEngine On
-RewriteCond %{REQUEST_FILENAME} !\.(jpg|gif|png|css|js|txt|ico|pdf|doc|docx|ppt|pptx|xls|xlsx)$ [NC]
+
+# Exclude specific file extensions from rewriting
+RewriteCond %{REQUEST_FILENAME} !\.(jpg|gif|png|css|js|txt|ico|pdf|doc|docx|ppt|pptx|xls|xlsx|html)$ [NC]
+
+# Exclude 'contact_form.php' from rewriting
+RewriteCond %{REQUEST_URI} !^/contact_form.php$
+
+# Rewrite all other requests to index.php
 RewriteRule ^ index.php [QSA,L]
 
 SetEnv SLIM_DEBUG 1
