@@ -28,6 +28,7 @@ class EnquiryExport
         // $templateProcessor->setValue('time', Util::JapanDateTime($enquiry->created_at)); // Require Intl extension
         $templateProcessor->setValue('time', $enquiry->created_at->format('Y-m-d H:i:s A'));
         $templateProcessor->setValue('store', $enquiry->getStoreName());
+        $templateProcessor->setValue('receipt_number', $enquiry->receipt_number);
         $templateProcessor->setValue('text', $enquiry->opinions_enquiries);
         $templateProcessor->setValue('name', $enquiry->name);
         $templateProcessor->setValue('postal_code', $enquiry->postal_code);
@@ -47,9 +48,10 @@ class EnquiryExport
     public static function generateSheet($template_path, $save_path, Enquiry $enquiry)
     {
         $values = self::getValues($enquiry);
-        $cell_attr = [
+        $cell_attr = [            
             'C9' => 'cat',
             'D10' => 'id',
+            'H10' => 'receipt_number',
             'D11' => 'store',
             'D12' => 'time',
             'D13' => 'name',
@@ -100,6 +102,7 @@ class EnquiryExport
             'time' => Util::JapanDateTime($enquiry->created_at),
             'time' => $enquiry->created_at->format('Y-m-d H:i:s A'),
             'store' => $enquiry->getStoreName(),
+            'receipt_number' => $enquiry->receipt_number,
             'text' => $enquiry->opinions_enquiries,
             'name' => $enquiry->name,
             'postal_code' => $enquiry->postal_code,

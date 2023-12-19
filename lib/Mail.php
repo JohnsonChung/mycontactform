@@ -96,7 +96,8 @@ STRING;
             'contact_requirement' => intval($params['contact_requirement']) === 0 ? 0 : 1,
             'contact_method' => $params['contact_method'],
             'telephone_number' => $params['telephone_number'],
-            'email' => $params['email_id']
+            'email' => $params['email_id'],
+            'receipt_number' => $params['receipt_number']
         ]);
         $enquiry->saveOrFail();
 

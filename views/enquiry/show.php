@@ -161,6 +161,10 @@
             <tr>
                 <th class="col-md-3">ご利用店舗</th>
                 <td class="col-md-9"><?= $this->e($enquiry->store->name) ?></td>
+            </tr>            
+            <tr>
+                <th class="col-md-3">レシート番号</th>
+                <td class="col-md-9"><?= $this->e($enquiry->receipt_number) ?></td>
             </tr>
             <tr>
                 <th class="col-md-3">お問合せ内容</th>

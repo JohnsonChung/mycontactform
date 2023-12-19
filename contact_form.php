@@ -68,7 +68,7 @@
               </div>
               <div class="modal-footer row">
                 <div class="col-md-6 col-xs-6">
-                  <input type="button" class="btn btn-lg btn-block btn-primary" id="form-submit" value="確 認" onclick="confirmSubmit()" />
+                  <input type="button" class="btn btn-lg btn-block btn-primary" id="form-submit" value="送 信" onclick="confirmSubmit()" />
                 </div>
                 <div class="col-md-4 col-md-offset-2 col-xs-6">
                   <button type="button" class="btn btn-lg btn-block btn-default" data-dismiss="modal">戻　る</button>
@@ -316,6 +316,14 @@
                       <textarea name="opinions_enquiries" class="zenkaku form-control" rows="10" maxlength="300" required placeholder="お問い合わせ内容をご入力ください。（300文字以内）"></textarea>
                     </dd>
                   </dl>
+                  <dl class="contact__box">
+                    <dt class="contact__boxTitle">
+                      レシート番号
+                    </dt>
+                    <dd class="contact__boxAnswer">
+                      <input class="form-control mf" name="receipt_number" type="input" id="receipt_number" placeholder="12-3456" />
+                    </dd>
+                  </dl>
                   <div class="wp_cnt_block"></div>
                   <dl class="contact__box">
                     <dt class="contact__boxTitle">対応可能時間</dt>
@@ -391,7 +399,8 @@
         "telephone_number": "0312345678", // 電話番号
         "email_id": "johnson780510@gmail.com", // メールアドレス
         "email_confirmation": "johnson780510@gmail.com", // メールアドレス(確認)
-        "opinions_enquiries": "サンプルテキスト。" // ご意見・お問い合わせ
+        "opinions_enquiries": "サンプルテキスト。", // ご意見・お問い合わせ
+        "receipt_number": "12-321456"
     };
 
     const now = new Date();

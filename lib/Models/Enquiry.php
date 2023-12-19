@@ -22,7 +22,8 @@ class Enquiry extends \Illuminate\Database\Eloquent\Model
         "contact_method",
         "contact_requirement",
         "telephone_number",
-        "email"
+        "email",
+        "receipt_number"
     ];
 
     const STATUS_NULL = 0;
@@ -109,7 +110,8 @@ class Enquiry extends \Illuminate\Database\Eloquent\Model
                 nl2br(htmlspecialchars($e->opinions_enquiries)),
                 $e->response ? $e->response->category->name : 'ー',
                 $e->response ? $e->response->responsible_party : 'ー',
-                $e->getResponseStatus()
+                $e->getResponseStatus(),
+                htmlspecialchars($e->receipt_number)
             ];
         }
 
