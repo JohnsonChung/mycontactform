@@ -67,6 +67,11 @@ class MyApp extends \Slim\App
                         'uri' => $this->uri('/mailer'),
                         'id' => 'mailer',
                         'name' => '配信先リスト'
+                    ],
+                    [
+                        'uri' => $this->uri('/filter'),
+                        'id' => 'filter',
+                        'name' => '名前フィルター'
                     ]
                 ];
 

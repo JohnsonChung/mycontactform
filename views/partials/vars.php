@@ -7,4 +7,5 @@
     
     var USER_LIST_URI = "<?=$this->uri('/user')?>";
     var MAILER_LIST_URI = "<?=$this->uri('/mailer')?>";
+    var FILTER_WORDS_LIST_URI = "<?=$this->uri('/filter')?>";
 </script>

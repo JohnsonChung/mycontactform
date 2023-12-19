@@ -10,6 +10,7 @@ use JQuest\Log;
 use JQuest\Models\Enquiry;
 use JQuest\Models\EnquiryResponseCategory;
 use JQuest\Models\Mailer;
+use JQuest\Models\FilterWords;
 use JQuest\Models\Prefecture;
 use JQuest\Models\Store;
 use JQuest\Models\User;
@@ -161,7 +162,7 @@ $app->get('/mailer', function (Request $request, Response $response, array $args
     if ($request->isXhr()) {
         return $response->withJson(Mailer::DT());
     } else {
-        return $response->write($app->views->render('mailer/list'));
+        return $response->write($app->views->render('mailer/list'));https://chat.openai.com/c/f731045d-fbfd-4baf-88b4-ea3f3df9da5f
     }
 })->add($admin_middleware);
 $app->get('/mailer/create', function (Request $request, Response $response, array $args) use ($app) {
@@ -536,5 +537,50 @@ $app->get('/stores', function (Request $request, Response $response, array $args
 $app->get('/prefectures', function (Request $request, Response $response, array $args) {
     return $response->withJson(Prefecture::all()->toArray());
 });
+
+
+//** Name Filters * */
+$app->get('/filter', function (Request $request, Response $response, array $args) use ($app) {
+    // 檢查是否為Ajax請求
+    if ($request->isXhr()) {
+        // 處理並返回過濾字詞的數據（類似Mailer::DT()的邏輯）
+        $filterWordsData = FilterWords::DT(); // 假設FilterWords::DT()返回過濾字詞的數據
+        return $response->withJson($filterWordsData);
+    } else {
+        // 返回過濾字詞頁面的HTML視圖
+        return $response->write($app->views->render('filter/list')); // 假設'filter/list'是過濾字詞列表的模板
+    }
+})->add($admin_middleware); // 假設$admin_middleware是管理員身份驗證中間件
+
+// 添加新的过滤词路由
+$app->post('/add-filter', function (Request $request, Response $response) use ($app) {
+    $filterWord = $request->getParam('filter_word', '');
+
+    // 添加过滤词到数据库
+    $word = new \JQuest\Models\FilterWords();
+    $word->word = $filterWord;
+    $word->save();
+    
+    // 设置成功消息并重定向
+    Flash::setSuccess("过滤词已添加");
+    return $response->withRedirect($app->uri('/filter')); // 确保您有一个用于显示成功消息的路由或视图
+})->add($admin_middleware);
+
+// 删除过滤词路由
+$app->post('/delete-filter/{id}', function (Request $request, Response $response, $args) use ($app) {
+    $id = $args['id'];
+    $word = \JQuest\Models\FilterWords::find($id);
+
+    if ($word) {
+        $word->delete();
+        Flash::setSuccess("过滤词已删除");
+    } else {
+        Flash::setError("找不到指定的过滤词");
+    }
+
+    return $response->withRedirect($app->uri('/filter')); // 确保您有一个用于显示成功或错误消息的路由或视图
+})->add($admin_middleware);
+
+
 
 $app->run();
