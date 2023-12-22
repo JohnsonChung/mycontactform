@@ -1,4 +1,5 @@
 link
 vendor
+config
 composer.phar
 .idea
