@@ -583,7 +583,7 @@ $app->post('/edit-filter', function (Request $request, Response $response) {
     } catch (Exception $e) {
         return $response->withJson(['success' => false, 'message' => $e->getMessage()]);
     }
-});
+})->add($admin_middleware);
 
 
 
