@@ -243,6 +243,11 @@ $app->get('/enquiry/{id:\d+}', function (Request $request, Response $response, a
             $result['upload_at'] = $enquiry->response->upload_at;
         }
 
+        // 檢查多次來信
+        $result['has_previous_enquiries_by_phone'] = Enquiry::hasPreviousEnquiriesByPhone($enquiry->telephone_number);
+        $result['has_previous_enquiries_by_email'] = Enquiry::hasPreviousEnquiriesByEmail($enquiry->email);
+        $result['has_previous_enquiries'] = Enquiry::hasPreviousEnquiries($enquiry->name);        
+
         return $response->write($app->views->render('enquiry/show', $result));
     } else {
         return $app->show404($request, $response);

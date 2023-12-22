@@ -172,7 +172,12 @@
             </tr>
             <tr>
                 <th class="col-md-3">お名前</th>
-                <td class="col-md-9"><?= $this->e($enquiry->name) ?></td>
+                <td class="col-md-9">
+                    <?= $this->e($enquiry->name) ?>
+                    <?php if ($has_previous_enquiries): ?>
+                        <span class="label label-warning">過去に投稿あり</span>
+                    <?php endif; ?>                    
+                </td>
             </tr>
             <tr>
                 <th class="col-md-3">カタガナ</th>
@@ -196,11 +201,21 @@
             </tr>
             <tr>
                 <th class="col-md-3">電話番号</th>
-                <td class="col-md-9"><?= $this->e($enquiry->telephone_number) ?></td>
+                <td class="col-md-9">
+                    <?= $this->e($enquiry->telephone_number) ?>
+                    <?php if (!empty($enquiry->telephone_number) && $has_previous_enquiries_by_phone): ?>
+                        <span class="label label-warning">過去に投稿あり</span>
+                    <?php endif; ?>
+                </td>
             </tr>
             <tr>
                 <th class="col-md-3">メールアドレス</th>
-                <td class="col-md-9"><?= $this->e($enquiry->email) ?></td>
+                <td class="col-md-9">
+                    <?= $this->e($enquiry->email) ?>
+                    <?php if (!empty($enquiry->email) && $has_previous_enquiries_by_email): ?>
+                        <span class="label label-warning">過去に投稿あり</span>
+                    <?php endif; ?>
+                </td>
             </tr>
             <tr>
                 <th class="col-md-3">弊社からのご回答</th>

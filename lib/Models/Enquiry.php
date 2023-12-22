@@ -96,6 +96,19 @@ class Enquiry extends \Illuminate\Database\Eloquent\Model
         }
     }
 
+    // 檢查多次來信人
+    public static function hasPreviousEnquiries($name) {
+        return self::where('name', $name)->count() > 1;
+    }
+
+    public static function hasPreviousEnquiriesByPhone($telephone) {
+        return $telephone && self::where('telephone_number', $telephone)->count() > 1;
+    }
+    
+    public static function hasPreviousEnquiriesByEmail($email) {
+        return $email && self::where('email', $email)->count() > 1;
+    }    
+
     public static function DT()
     {
         $data = [];
