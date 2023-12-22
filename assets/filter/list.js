@@ -1,58 +1,47 @@
 $(document).ready(function () {
-    var table = $('#word_check_list').dataTable({
-        "ajax": FILTER_WORDS_LIST_URI, // 更改為適合您的過濾字詞列表的URI
-        "language": {
-            "url": "https://cdn.datatables.net/plug-ins/1.10.7/i18n/Japanese.json"
-        },
-        "order": [
-            [0, 'asc']
-        ],
-        "columnDefs": [{
-                "targets": 2,
-                "data": null,
-                "render": function (data, type, full, meta) {
-                    var id = data[0], word = data[1];
-                    var template_actions = _.template($("#template-actions").html());
-                    return type === 'display' ? template_actions({id: id, word: word}) : data;
-                }
-            }]
-    });
-
-    // 其他必要的DataTable設定...
-    // 处理新增过滤词
-    $('#add-filter-form').on('submit', function (e) {
-        e.preventDefault();
-        var word = $('#new-filter-word').val();
+    // 載入現有的過濾詞並顯示在 textarea 中
+    function loadFilterWords() {
         $.ajax({
-            url: '您的添加过滤词后端处理URL',
-            type: 'POST',
-            data: { filter_word: word },
-            success: function(response) {
-                // 添加成功后的操作，例如刷新列表
-                $('#word_check_list').DataTable().ajax.reload();
+            url: '/get-filters', // 確保這個 URL 是指向你的後端路由的
+            type: 'GET',
+            success: function (data) {
+                // 將獲得的過濾詞陣列轉換成換行分隔的字符串
+                var wordsText = data.join("\n");
+                $('#filter-words').val(wordsText);
             },
-            error: function(xhr, status, error) {
-                // 错误处理
+            error: function () {
+                alert('無法加載過濾詞列表。請檢查後端服務。');
+            }
+        });
+    }
+
+    // 初始化時載入過濾詞
+    loadFilterWords();
+
+    // 處理過濾詞表單提交
+    $('#edit-filter-form').on('submit', function (e) {
+        e.preventDefault();
+    
+        // 从 textarea 中获取过滤词
+        var words = $('#filter-words').val();
+    
+        // 发送更新过滤词的请求到后端
+        $.ajax({
+            url: '/edit-filter', // 确保这是正确的后端路由
+            type: 'POST',
+            data: { filter_words: words },
+            success: function (response) {
+                if (response.success) {
+                    alert("过滤词已更新！");
+                    loadFilterWords(); // 重新载入更新后的过滤词
+                } else {
+                    alert("更新失败：" + response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                alert("更新失败：" + error);
             }
         });
     });
-
-    // 处理删除过滤词
-    $('#word_check_list tbody').on('click', '.delete-word', function () {
-        var id = $(this).data('id');
-        if(confirm('确定删除这个过滤词吗?')) {
-            $.ajax({
-                url: '您的删除过滤词后端处理URL/' + id,
-                type: 'POST',
-                success: function(response) {
-                    // 删除成功后的操作，例如刷新列表
-                    $('#word_check_list').DataTable().ajax.reload();
-                },
-                error: function(xhr, status, error) {
-                    // 错误处理
-                }
-            });
-        }
-    });
+    
 });
-

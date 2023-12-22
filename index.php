@@ -541,45 +541,44 @@ $app->get('/prefectures', function (Request $request, Response $response, array 
 
 //** Name Filters * */
 $app->get('/filter', function (Request $request, Response $response, array $args) use ($app) {
-    // 檢查是否為Ajax請求
-    if ($request->isXhr()) {
-        // 處理並返回過濾字詞的數據（類似Mailer::DT()的邏輯）
-        $filterWordsData = FilterWords::DT(); // 假設FilterWords::DT()返回過濾字詞的數據
-        return $response->withJson($filterWordsData);
-    } else {
-        // 返回過濾字詞頁面的HTML視圖
-        return $response->write($app->views->render('filter/list')); // 假設'filter/list'是過濾字詞列表的模板
-    }
-})->add($admin_middleware); // 假設$admin_middleware是管理員身份驗證中間件
-
-// 添加新的过滤词路由
-$app->post('/add-filter', function (Request $request, Response $response) use ($app) {
-    $filterWord = $request->getParam('filter_word', '');
-
-    // 添加过滤词到数据库
-    $word = new \JQuest\Models\FilterWords();
-    $word->word = $filterWord;
-    $word->save();
-    
-    // 设置成功消息并重定向
-    Flash::setSuccess("过滤词已添加");
-    return $response->withRedirect($app->uri('/filter')); // 确保您有一个用于显示成功消息的路由或视图
+    // 直接返回編輯過濾詞的頁面
+    return $response->write($app->views->render('filter/edit'));
 })->add($admin_middleware);
 
-// 删除过滤词路由
-$app->post('/delete-filter/{id}', function (Request $request, Response $response, $args) use ($app) {
-    $id = $args['id'];
-    $word = \JQuest\Models\FilterWords::find($id);
+// 當前端請求過濾詞列表時
+$app->get('/get-filters', function (Request $request, Response $response) {
+    $words = FilterWords::getAllWords(); // 假設這返回一個包含所有過濾詞的數組
+    return $response->withJson($words);
+});
 
-    if ($word) {
-        $word->delete();
-        Flash::setSuccess("过滤词已删除");
-    } else {
-        Flash::setError("找不到指定的过滤词");
+// 處理前端發來的過濾詞更新請求
+$app->post('/edit-filter', function (Request $request, Response $response) {
+    try {
+        // 从请求中获取过滤词。确保它是一个字符串。
+        $wordsStr = $request->getParam('filter_words');
+        if (!is_string($wordsStr)) {
+            throw new Exception("过滤词应该是一个字符串。");
+        }
+
+        // 将字符串分割为数组
+        $words = explode("\n", $wordsStr);
+
+        // 清除所有现有过滤词
+        FilterWords::truncate();
+
+        // 添加新的过滤词
+        foreach ($words as $word) {
+            $word = trim($word);
+            if (!empty($word)) {
+                FilterWords::create(['word' => $word]);
+            }
+        }
+
+        return $response->withJson(['success' => true, 'message' => '过滤词已更新']);
+    } catch (Exception $e) {
+        return $response->withJson(['success' => false, 'message' => $e->getMessage()]);
     }
-
-    return $response->withRedirect($app->uri('/filter')); // 确保您有一个用于显示成功或错误消息的路由或视图
-})->add($admin_middleware);
+});
 
 
 

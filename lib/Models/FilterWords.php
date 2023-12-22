@@ -2,33 +2,20 @@
 
 namespace JQuest\Models;
 
-class FilterWords extends \Illuminate\Database\Eloquent\Model
+use Illuminate\Database\Eloquent\Model;
 
+class FilterWords extends Model
 {
-    protected $table = 'name_filters'; // 与您的数据库表名称相匹配
+    protected $table = 'filter_words'; // 你的表名
 
     protected $fillable = ['word']; // 允许批量赋值的字段
 
-    protected $dates = ['created_at']; // 如果您想在 Eloquent 中使用日期字段
+    public $timestamps = false; // 不自动管理 created_at 和 updated_at 时间戳
 
-    /**
-     * 获取所有过滤字词的数据，用于 DataTables 显示
-     * 
-     * @return array
-     */
-    public static function DT()
+
+    // 現有的 getAllWords 方法應該已經能正確工作
+    public static function getAllWords()
     {
-        $data = [];
-
-        $words = self::query()->orderBy('id', 'desc')->get();
-        foreach ($words as $word) {
-            $data[] = [
-                $word->id,
-                $word->word,
-                $word->created_at // 显示创建时间，如果需要
-            ];
-        }
-
-        return ['data' => $data];
+        return self::all()->pluck('word'); // pluck只獲取word列的值
     }
 }
