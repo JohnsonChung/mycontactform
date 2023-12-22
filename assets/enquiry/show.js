@@ -1,6 +1,8 @@
 $(function () {
     $("#response_form").submit(function () {
-
+        // Disable the submit button immediately when the form is submitted
+        $("#response_modal input[type=submit]").prop('disabled', true);
+    
         $.post(ENQUIRY_RESPONSE_URI.replace("{id}", ENQUIRY_ID), {
             response_category: $("select[name=response_category]").val(),
             responsible_party: $("input[name=responsible_party]").val(),
@@ -12,7 +14,7 @@ $(function () {
                     type: 'success',
                     text: jqXHR.status === 201 ? "送信成功！" : "送信成功！"
                 });
-                
+    
                 $("#confirm_download_modal").modal('show');
                 $("#confirm_download_modal").on('hide.bs.modal', function (e) {
                     window.location.reload(true);
@@ -23,13 +25,15 @@ $(function () {
                     text: 'Internal Server Error',
                 });
             }
+            // Re-enable the submit button after the response is received
+            $("#response_modal input[type=submit]").prop('disabled', false);
         }).error(function (xhr) {
             try {
                 var data = xhr.responseJSON;
                 if (_.isObject(data) && data.status === 'error' && data.message) {
                     throw new Error(data.message);
                 }
-
+    
                 throw new Error('Internal Server Error');
             } catch (error) {
                 noty({
@@ -37,10 +41,13 @@ $(function () {
                     text: error
                 });
             }
+            // Re-enable the submit button after an error is caught
+            $("#response_modal input[type=submit]").prop('disabled', false);
         });
-
+    
         return false;
     });
+    
 
     $("a.download").click(function () {
         downloadDoc();
