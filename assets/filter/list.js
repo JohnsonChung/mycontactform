@@ -1,47 +1,56 @@
 $(document).ready(function () {
-    // 載入現有的過濾詞並顯示在 textarea 中
     function loadFilterWords() {
         $.ajax({
-            url: '/get-filters', // 確保這個 URL 是指向你的後端路由的
+            url: '/get-filters',
+            // Test server https://www.j-quest.jp/contact3_testing/
             type: 'GET',
             success: function (data) {
-                // 將獲得的過濾詞陣列轉換成換行分隔的字符串
                 var wordsText = data.join("\n");
                 $('#filter-words').val(wordsText);
             },
             error: function () {
-                alert('無法加載過濾詞列表。請檢查後端服務。');
+                noty({
+                    type: 'error',
+                    text: '回線の原因でロード失敗しました。',
+                    timeout: 3000  // Close the noty after 3 seconds
+                });
             }
         });
     }
 
-    // 初始化時載入過濾詞
     loadFilterWords();
 
-    // 處理過濾詞表單提交
     $('#edit-filter-form').on('submit', function (e) {
         e.preventDefault();
-    
-        // 从 textarea 中获取过滤词
         var words = $('#filter-words').val();
     
-        // 发送更新过滤词的请求到后端
         $.ajax({
-            url: '/edit-filter', // 确保这是正确的后端路由
+            url: '/edit-filter',
             type: 'POST',
             data: { filter_words: words },
             success: function (response) {
                 if (response.success) {
-                    alert("过滤词已更新！");
-                    loadFilterWords(); // 重新载入更新后的过滤词
+                    noty({
+                        type: 'success',
+                        text: "フィルターは成功にアップデートしました！",
+                        timeout: 3000
+                    });
+                    loadFilterWords();
                 } else {
-                    alert("更新失败：" + response.message);
+                    noty({
+                        type: 'error',
+                        text: "データーベースのアップデートが失敗しました：" + response.message,
+                        timeout: 3000
+                    });
                 }
             },
             error: function (xhr, status, error) {
-                alert("更新失败：" + error);
+                noty({
+                    type: 'error',
+                    text: "回線の原因でアップデート失敗しました：" + error,
+                    timeout: 3000
+                });
             }
         });
     });
-    
 });
