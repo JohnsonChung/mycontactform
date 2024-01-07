@@ -1,5 +1,5 @@
-$(document).ready(function () {
-    var table = $('#enquiry_list').dataTable({
+$(document).ready(function () {    
+    var table = $('#enquiry_list').DataTable({
         "ajax": ENQUIRY_LIST_URI,
         "language": {
             "url": "https://cdn.datatables.net/plug-ins/1.10.7/i18n/Japanese.json"
@@ -7,15 +7,21 @@ $(document).ready(function () {
         "order": [
             [0, 'desc']
         ],
-        "columnDefs": [{
-                "targets": 4,
-                "data": null,
-                "render": function (data, type, full, meta) {
-                    var content = data[4].substr(0, 50);
-                    var link = ENQUIRY_SHOW_URI.replace(/{id}/, data[0]);
-                    return type === 'display' ? '<a href="' + link + '">' + content + "</a>" : data;
-                }
-            }]
+        "columnDefs": 
+        [{
+            "targets": 4,
+            "data": null,
+            "render": function (data, type, full, meta) {
+                var content = data[4].substr(0, 50);
+                var link = ENQUIRY_SHOW_URI.replace(/{id}/, data[0]);
+                return type === 'display' ? '<a href="' + link + '">' + content + "</a>" : data;
+            }
+        }],
+        "initComplete": function(settings, json) {
+            if (filter) {
+                table.search(filter).draw();
+            }
+        }
     });
 
     var tt = new $.fn.dataTable.TableTools(table, {
@@ -26,4 +32,13 @@ $(document).ready(function () {
     });
     $(tt.fnContainer()).insertBefore('#enquiry_list');
 
+    // url?filter=keyword    
+    var filter = getQueryParam('filter'); 
+    if (filter) {
+        table.search(filter).draw();
+    }
+    function getQueryParam(param) {
+        var searchParams = new URLSearchParams(window.location.search);
+        return searchParams.get(param);
+    }
 });

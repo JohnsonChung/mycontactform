@@ -124,7 +124,9 @@ class Enquiry extends \Illuminate\Database\Eloquent\Model
                 $e->response ? $e->response->category->name : 'ー',
                 $e->response ? $e->response->responsible_party : 'ー',
                 $e->getResponseStatus(),
-                htmlspecialchars($e->receipt_number)
+                htmlspecialchars($e->receipt_number),
+                htmlspecialchars($e->email),          
+                htmlspecialchars($e->telephone_number) 
             ];
         }
 
