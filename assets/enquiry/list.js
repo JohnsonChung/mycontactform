@@ -26,7 +26,7 @@ $(document).ready(function () {
         'language': {
             'loadingRecords': "&nbsp;",
             "zeroRecords": " - ",
-            "processing": "資料を読み込み中・・・"
+            "processing": "<h4>資料を読み込み中・・・</h4>"
         }  
     });
 
