@@ -175,8 +175,8 @@
                 <td class="col-md-9">
                     <?= $this->e($enquiry->name) ?>
                     <?php if ($has_previous_enquiries): ?>
-                        <span class="label label-warning">過去に投稿あり</span>
-                    <?php endif; ?>                    
+                        <a href="http://<?= $_SERVER['HTTP_HOST'] ?>/enquiry?filter=<?= urlencode($enquiry->name) ?>" class="previous-postings-link btn btn-warning">過去に投稿あり</a>           
+                    <?php endif; ?>
                 </td>
             </tr>
             <tr>
@@ -200,11 +200,11 @@
                 <td class="col-md-9"><?= $this->e($enquiry->building_name) ?></td>
             </tr>
             <tr>
-                <th class="col-md-3">電話番号</th>
+            <th class="col-md-3">電話番号</th>
                 <td class="col-md-9">
                     <?= $this->e($enquiry->telephone_number) ?>
                     <?php if (!empty($enquiry->telephone_number) && $has_previous_enquiries_by_phone): ?>
-                        <span class="label label-warning">過去に投稿あり</span>
+                        <a href="http://<?= $_SERVER['HTTP_HOST'] ?>/enquiry?filter=<?= urlencode($enquiry->telephone_number) ?>" class="previous-postings-link btn btn-warning">過去に投稿あり</a>
                     <?php endif; ?>
                 </td>
             </tr>
@@ -213,7 +213,7 @@
                 <td class="col-md-9">
                     <?= $this->e($enquiry->email) ?>
                     <?php if (!empty($enquiry->email) && $has_previous_enquiries_by_email): ?>
-                        <span class="label label-warning">過去に投稿あり</span>
+                        <a href="http://<?= $_SERVER['HTTP_HOST'] ?>/enquiry?filter=<?= urlencode($enquiry->email) ?>" class="previous-postings-link btn btn-warning">過去に投稿あり</a>
                     <?php endif; ?>
                 </td>
             </tr>
