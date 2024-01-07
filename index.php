@@ -553,7 +553,7 @@ $app->get('/filter', function (Request $request, Response $response, array $args
 // 當前端請求過濾詞列表時
 $app->get('/get-filters', function (Request $request, Response $response) {
     $words = FilterWords::getAllWords(); // 假設這返回一個包含所有過濾詞的數組
-    return $response->withJson($words);
+    return $response->withHeader('Access-Control-Allow-Origin', '*')->withJson($words);
 });
 
 // 處理前端發來的過濾詞更新請求
