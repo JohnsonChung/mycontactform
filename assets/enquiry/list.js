@@ -21,7 +21,13 @@ $(document).ready(function () {
             if (filter) {
                 table.search(filter).draw();
             }
-        }
+        },
+        processing: true,
+        'language': {
+            'loadingRecords': "&nbsp;",
+            "zeroRecords": " - ",
+            "processing": "資料を読み込み中・・・"
+        }  
     });
 
     var tt = new $.fn.dataTable.TableTools(table, {
