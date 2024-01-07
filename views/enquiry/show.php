@@ -203,8 +203,8 @@
             <th class="col-md-3">電話番号</th>
                 <td class="col-md-9">
                     <?= $this->e($enquiry->telephone_number) ?>
-                    <?php if (!empty($enquiry->telephone_number) && $has_previous_enquiries_by_phone): ?>
-                        <a href="http://<?= $_SERVER['HTTP_HOST'] ?>/enquiry?filter=<?= urlencode($enquiry->telephone_number) ?>" class="previous-postings-link btn btn-warning">過去に投稿あり</a>
+                    <?php if (!empty($enquiry->telephone_number) && $has_previous_enquiries_by_phone): ?>                        
+                        <a href="?filter=<?= urlencode($enquiry->telephone_number) ?>" class="previous-postings-link btn btn-warning">過去に投稿あり</a>
                     <?php endif; ?>
                 </td>
             </tr>
