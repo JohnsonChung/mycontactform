@@ -30,7 +30,7 @@
 <script src="link/js/moment.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" defer=""></script>
 <script src="link/js/lib.js"></script>
-<script src="link/js/contact3_testing.js?20231131"></script>
+<script type="module" src="link/js/contact3_testing.js"></script>
 
 <div class="contentWrapper contactPage">
   <main>
@@ -68,7 +68,7 @@
               </div>
               <div class="modal-footer row">
                 <div class="col-md-6 col-xs-6">
-                  <input type="button" class="btn btn-lg btn-block btn-primary" id="form-submit" value="送 信" onclick="confirmSubmit()" />
+                  <input type="button" class="btn btn-lg btn-block btn-primary" id="submitButton" value="送 信" />
                 </div>
                 <div class="col-md-4 col-md-offset-2 col-xs-6">
                   <button type="button" class="btn btn-lg btn-block btn-default" data-dismiss="modal">戻　る</button>
@@ -148,7 +148,7 @@
                       お名前
                     </dt>
                     <dd class="contact__boxAnswer">
-                      <input class="form-control" type="text" name="name" placeholder="例）山田太郎 (姓と名を続けて入力）" pattern="^[一-龠ぁ-ゔァ-ヴー]+|[a-zA-Z0-9]+|[ａ-ｚＡ-Ｚ０-９]+|[々〆〤ヶ]+$" title="お名前を入力してください、空欄と記号では送信不可" required />
+                      <input class="form-control" type="text" name="realname" placeholder="例）山田太郎 (姓と名を続けて入力）" pattern="^[一-龠ぁ-ゔァ-ヴー]+|[a-zA-Z0-9]+|[ａ-ｚＡ-Ｚ０-９]+|[々〆〤ヶ]+$" title="お名前を入力してください、空欄と記号では送信不可" required />
                     </dd>
                   </dl>
                   <dl class="contact__box">
@@ -339,7 +339,7 @@
                   </p>
                 </div>
                 <div class="contact__btn">
-                  <button class="btn--grd" type="submit" name="submit">確認画面へ進む</button>
+                  <button class="btn--grd" type="submit" id="checkSubmitButton" name="submit">確認画面へ進む</button>
                 </div>
                 <input type="hidden" name="submit" value="1" />
               </div>   
@@ -389,7 +389,7 @@
         "privacy_policy_agreed": true, // 個人情報の取り扱いに同意します
         "available_store": "2", // ご利用店舗
         "contact_katakana": "ヤマダタロウ", // フリガナ
-        "name": "山田太郎", // お名前
+        "realname": "山田太郎", // お名前
         "postal_code": "1040033", // 郵便番号
         "state": "東京都", // 都道府県
         "city": "中央区新川1-10-14", // 市区郡町番地
