@@ -87,7 +87,7 @@ STRING;
         $enquiry = (new Enquiry())->fill([
             'store_id' => intval($params['available_store']),
             'opinions_enquiries' => $params['opinions_enquiries'],
-            'name' => $params['name'],
+            'name' => $params['realname'],
             'contact_katakana' => $params['contact_katakana'],
             'postal_code' => $params['postal_code'],
             'state' => $params['state'],
