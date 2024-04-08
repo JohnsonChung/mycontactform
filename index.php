@@ -162,7 +162,7 @@ $app->get('/mailer', function (Request $request, Response $response, array $args
     if ($request->isXhr()) {
         return $response->withJson(Mailer::DT());
     } else {
-        return $response->write($app->views->render('mailer/list'));https://chat.openai.com/c/f731045d-fbfd-4baf-88b4-ea3f3df9da5f
+        return $response->write($app->views->render('mailer/list'));
     }
 })->add($admin_middleware);
 $app->get('/mailer/create', function (Request $request, Response $response, array $args) use ($app) {
